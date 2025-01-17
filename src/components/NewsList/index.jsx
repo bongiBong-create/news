@@ -13,4 +13,4 @@ const NewsList = ({ news }) => {
   );
 };
 
-export const NewsListWithSkeleton = withSkeleton(NewsList, "item", 10);
+export const NewsListWithSkeleton = withSkeleton(NewsList, "item", 10, "row");
