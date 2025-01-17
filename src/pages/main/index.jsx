@@ -1,22 +1,26 @@
 import { useEffect, useState } from "react";
 import { getCategories, getNews } from "../../api/apiNews";
+import { useDebounce } from "../../helpers/hooks/useDebounce";
 
 import { NewsBanner } from "../../components/NewsBanner";
 import { NewsList } from "../../components/NewsList";
 import { Skeleton } from "../../components/skeleton";
 import { Pagination } from "../../components/pagination";
+import { Categories } from "../../components/category";
+import { Search } from "../../components/search";
 
 import styles from "./index.module.css";
-import { Categories } from "../../components/category";
-
 export const Main = () => {
   const [news, setNews] = useState([]);
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
+  const [keywords, setKeywords] = useState("");
   const totalPage = 10;
   const pageSize = 10;
+
+  const debouncedKeywords = useDebounce(keywords, 1500);
 
   const fetchNews = async (currentPage) => {
     try {
@@ -25,6 +29,7 @@ export const Main = () => {
         page_number: currentPage,
         page_size: pageSize,
         category: selectedCategory === "All" ? null : selectedCategory,
+        keywords: debouncedKeywords,
       });
       setNews([...response.news]);
       setIsLoading(false);
@@ -64,7 +69,7 @@ export const Main = () => {
 
   useEffect(() => {
     fetchNews(currentPage);
-  }, [currentPage, selectedCategory]);
+  }, [currentPage, selectedCategory, debouncedKeywords]);
 
   return (
     <main className={styles.main}>
@@ -73,6 +78,9 @@ export const Main = () => {
         setSelectedCategory={setSelectedCategory}
         selectedCategory={selectedCategory}
       />
+
+      <Search keywords={keywords} setKeywords={setKeywords} />
+
       {news.length > 0 && !isLoading ? (
         <NewsBanner item={news[0]} />
       ) : (
