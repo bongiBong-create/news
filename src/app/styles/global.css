@@ -1,0 +1,21 @@
+@import "./fonts.css";
+
+:root {
+  --font-base: "Suisseint", sans-serif;
+}
+
+* {
+  font-family: var(--font-base);
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+li {
+  list-style: none;
+}
+
+.container {
+  padding: 24px;
+  min-height: 100vh;
+}
