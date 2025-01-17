@@ -1,7 +1,9 @@
+import { withSkeleton } from "../../helpers/hocs/withSkeleton";
 import { NewsItem } from "../NewsItem";
+
 import styles from "./index.module.css";
 
-export const NewsList = ({ news }) => {
+const NewsList = ({ news }) => {
   return (
     <ul className={styles.list}>
       {news.map((item) => (
@@ -10,3 +12,5 @@ export const NewsList = ({ news }) => {
     </ul>
   );
 };
+
+export const NewsListWithSkeleton = withSkeleton(NewsList, "item", 10);
