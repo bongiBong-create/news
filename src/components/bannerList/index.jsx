@@ -6,7 +6,7 @@ import styles from "./index.module.css"
 const BannerList = ({ banners }) => {
   return (
     <ul className={styles.banners}>
-      {banners?.map((banner) => (
+      {banners.map((banner) => (
         <NewsBanner key={banner.id} item={banner} />
       ))}
     </ul>
